@@ -17,8 +17,7 @@ ENV PATH=$CONDA_DIR/bin:$PATH
 #SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
 RUN conda install -n base --override-channels -c conda-forge mamba 'python_abi=*=*cp*'
 RUN mamba create -n pymc_env jupyterlab "pymc>=5"  -c conda-forge -y
+SHELL ["conda", "run", "-n", "pymc_env", "/bin/bash", "-c"]
 
-#RUN conda create -c conda-forge -n pymc_env "pymc>=5"\
-#    conda activate pymc_env\
 #    conda install numpyro\
 #    conda install -c anaconda jupyter pandas seaborn 
