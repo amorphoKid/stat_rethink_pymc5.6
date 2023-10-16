@@ -1,0 +1,27 @@
+from rocker/tidyverse
+
+RUN apt-get clean all && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+        libhdf5-dev \
+        libcurl4-gnutls-dev \
+        libssl-dev \
+        libxml2-dev \
+        libpng-dev \
+        libxt-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libglpk40 \
+        libgit2-dev \
+    && apt-get clean all && \
+    apt-get purge && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+USER rstudio
+RUN Rscript -e 'install.packages(c("checkmate","posterior","rstan"), repos="https://cloud.r-project.org")'
+RUN Rscript -e 'install.packages("cmdstanr", repos="https://mc-stan.org/r-packages/")'
+RUN Rscript -e 'library(cmdstanr); install_cmdstan()'
+RUN Rscript -e 'install.packages(c("bayesplot"), repos="https://cloud.r-project.org")'
+WORKDIR /home/rstudio
+USER root
